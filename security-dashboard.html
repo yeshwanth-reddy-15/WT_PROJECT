@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Gatehouse Console | CVR College of Engineering</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <meta name="description" content="CVR College of Engineering campus security checkpoint portal for verifying approved visitors, logging gate check-in, and monitoring active visitors at Vastunagar campus.">
+  <style>
+    .security-tab-nav {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 2px solid var(--color-border);
+      margin-bottom: 1.25rem;
+    }
+    .security-tab-btn {
+      background: none;
+      border: none;
+      padding: 0.625rem 1.125rem;
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color var(--transition-fast), border-color var(--transition-fast);
+    }
+    .security-tab-btn:hover {
+      color: var(--color-primary);
+    }
+    .security-tab-btn.active {
+      color: var(--color-primary);
+      border-bottom-color: var(--color-primary);
+    }
+    .security-tab-count {
+      background: #E2E8F0;
+      color: #334155;
+      font-size: 0.75rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 10px;
+    }
+    .security-tab-btn.active .security-tab-count {
+      background: var(--color-primary);
+      color: #FFFFFF;
+    }
+  </style>
+</head>
+<body>
+  <a href="#security-main" class="skip-link">Skip to main content</a>
+
+  <div class="dashboard-layout">
+    
+    <!-- Left Navigation Sidebar -->
+    <aside class="dashboard-sidebar" id="securitySidebar" aria-label="Security checkpoint navigation">
+      <div class="sidebar-header">
+        <div class="sidebar-emblem" style="background-color: #243142; color: #FFFFFF;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+        </div>
+        <div class="sidebar-title-group">
+          <span class="sidebar-title">CVR Campus Security</span>
+          <span class="sidebar-subtitle">Gate 1 Vastunagar</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav-heading">Gate Operations</div>
+        
+        <a href="security-dashboard.html" class="sidebar-link active" aria-current="page">
+          <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="9 11 12 14 22 4"></polyline>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+          </svg>
+          <span>Gate 1 Check-in Desk</span>
+          <span class="sidebar-badge" id="sidebarGateApprovedCount">0</span>
+        </a>
+
+        <a href="admin-dashboard.html" class="sidebar-link">
+          <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>Admin Clearances</span>
+        </a>
+
+        <div class="sidebar-nav-heading" style="margin-top: 1rem;">Public Access</div>
+        <a href="status.html" class="sidebar-link" target="_blank" rel="noopener">
+          <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span>Public Status Verify</span>
+        </a>
+        <a href="index.html" class="sidebar-link">
+          <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          </svg>
+          <span>CVR Portal Home</span>
+        </a>
+        <a href="https://cvr.ac.in" class="sidebar-link" target="_blank" rel="noopener">
+          <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+          <span>cvr.ac.in Site</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar" id="securityAvatar" style="background-color: #334155;">MS</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="securityOfficerName">Officer M. Srinivas</div>
+            <div class="sidebar-user-role" id="securityOfficerRole">Gate 1 Security Lead</div>
+          </div>
+        </div>
+        <button type="button" class="sidebar-logout-btn" id="secLogoutBtn" title="Sign out of gatehouse console" aria-label="Sign out">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Work Area -->
+    <main class="dashboard-main" id="security-main">
+      
+      <!-- Topbar Header -->
+      <header class="dashboard-topbar">
+        <div class="topbar-left">
+          <button type="button" class="sidebar-toggle-btn" id="secSidebarToggleBtn" aria-label="Toggle navigation drawer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div>
+            <h1 class="topbar-heading-title">CVR Gate 1 Security Checkpoint Console</h1>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="date-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span class="current-date-display">Today</span>
+          </div>
+          <span class="demo-indicator-pill">Vastunagar Checkpoint</span>
+        </div>
+      </header>
+
+      <!-- Dashboard Body -->
+      <div class="dashboard-body">
+        
+        <!-- Gatehouse Station Identification Banner -->
+        <div class="gatehouse-status-banner">
+          <div>
+            <div class="gatehouse-station-title">
+              Checkpoint: Gate 1 &mdash; Vastunagar Main Entrance (Mangalpalli, Ibrahimpatnam)
+            </div>
+            <div class="gatehouse-station-meta">
+              Duty Officer: <strong id="bannerOfficerName">Officer M. Srinivas (Badge #482)</strong> &bull; Access Lane 1-A &bull; Physical Aadhaar / Photo ID Protocol Active
+            </div>
+          </div>
+          <div>
+            <span class="badge badge-approved" style="font-size: 0.8125rem;">
+              <span class="badge-dot"></span> Gate Sentinel Operational
+            </span>
+          </div>
+        </div>
+
+        <!-- Metric Summary Cards -->
+        <section class="metrics-grid" style="grid-template-columns: repeat(3, 1fr);" aria-label="Gatehouse metrics">
+          
+          <div class="metric-card accent-approved">
+            <div class="metric-label">Today's Approved Visitors</div>
+            <div class="metric-value-row">
+              <span class="metric-value" id="secMetricApproved">0</span>
+              <span class="badge badge-approved">Cleared</span>
+            </div>
+            <div class="metric-subtext">Cleared for Gate 1 entry pass issuance</div>
+          </div>
+
+          <div class="metric-card accent-oncampus">
+            <div class="metric-label">Currently On Campus</div>
+            <div class="metric-value-row">
+              <span class="metric-value" id="secMetricOnCampus" style="color: #1D4ED8;">0</span>
+              <span class="badge badge-oncampus">Active In-Campus</span>
+            </div>
+            <div class="metric-subtext">Visitor badge active on Vastunagar grounds</div>
+          </div>
+
+          <div class="metric-card accent-total">
+            <div class="metric-label">Completed Visits Today</div>
+            <div class="metric-value-row">
+              <span class="metric-value" id="secMetricCompleted">0</span>
+              <span class="badge badge-completed">Checked Out</span>
+            </div>
+            <div class="metric-subtext">Departed &amp; visitor badge surrendered at Gate 1</div>
+          </div>
+
+        </section>
+
+        <!-- Security Guardrail Alert (Strictly enforced: Unapproved cannot enter) -->
+        <div class="alert alert-info" style="margin-bottom: 1.25rem;">
+          <div class="alert-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <div class="alert-content">
+            <div class="alert-title">CVR Campus Security Access Protocol</div>
+            <div>
+              Only visitors with official <strong>Approved</strong> clearance status may be checked in and issued badges. Visitors with <em>Pending Review</em> or <em>Declined</em> status cannot be processed for entry until cleared by their host CVR department or Administrative Officer (08414-661601).
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Navigation for Gatehouse Perspective -->
+        <div class="security-tab-nav" role="tablist" aria-label="Gatehouse visitor categories">
+          <button type="button" class="security-tab-btn active" id="tabApproved" role="tab" aria-selected="true" data-tab="approved">
+            Approved Visitors Awaiting Arrival
+            <span class="security-tab-count" id="countTabApproved">0</span>
+          </button>
+          <button type="button" class="security-tab-btn" id="tabOnCampus" role="tab" aria-selected="false" data-tab="oncampus">
+            Currently On Campus (Vastunagar)
+            <span class="security-tab-count" id="countTabOnCampus">0</span>
+          </button>
+          <button type="button" class="security-tab-btn" id="tabCompleted" role="tab" aria-selected="false" data-tab="completed">
+            Completed Visits
+            <span class="security-tab-count" id="countTabCompleted">0</span>
+          </button>
+          <button type="button" class="security-tab-btn" id="tabAll" role="tab" aria-selected="false" data-tab="all">
+            All Records Log
+            <span class="security-tab-count" id="countTabAll">0</span>
+          </button>
+        </div>
+
+        <!-- Filter Toolbar -->
+        <div class="filter-toolbar">
+          
+          <div class="search-box-wrapper" style="max-width: 440px;">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input 
+              type="search" 
+              id="secSearchInput" 
+              class="form-control search-input" 
+              placeholder="Search visitor name, CVR reference (CVR-...), or host..." 
+              aria-label="Search gate records">
+          </div>
+
+          <div class="filter-actions-group">
+            <select id="secDeptFilter" class="form-control filter-select" aria-label="Filter by department">
+              <option value="">Host Department: All</option>
+              <option value="Computer Science & Engineering (CSE)">CSE Block</option>
+              <option value="Electronics & Communication Engineering (ECE)">ECE (Vishveshwarya)</option>
+              <option value="Electrical & Electronics Engineering (EEE)">EEE (Ramanujan)</option>
+              <option value="Information Technology (IT)">IT Complex</option>
+              <option value="Artificial Intelligence & Machine Learning (AI & ML)">AI &amp; ML Wing</option>
+              <option value="Mechanical Engineering (ME)">Mechanical Block</option>
+              <option value="Civil Engineering (CE)">Civil Block</option>
+              <option value="Humanities & Sciences (H&S)">H&amp;S Wing</option>
+              <option value="Training & Placement Cell (T&P)">Placement Pavilion</option>
+              <option value="Administrative Office & Examination Branch">Admin Block</option>
+            </select>
+
+            <button type="button" id="secResetFiltersBtn" class="btn btn-secondary btn-sm">
+              Clear Search
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Security Data Table -->
+        <div class="table-container">
+          <table class="data-table" id="secDataTable">
+            <thead>
+              <tr>
+                <th scope="col" style="width: 140px;">Reference ID</th>
+                <th scope="col">Visitor Name &amp; Contact</th>
+                <th scope="col">CVR Host &amp; Wing</th>
+                <th scope="col" style="width: 140px;">Scheduled Date</th>
+                <th scope="col" style="width: 160px;">Gate Timestamps</th>
+                <th scope="col" style="width: 130px;">Status</th>
+                <th scope="col" style="width: 180px; text-align: right;">Gate Action</th>
+              </tr>
+            </thead>
+            <tbody id="secTableBody">
+              <!-- Dynamically rendered via security-dashboard.js -->
+            </tbody>
+          </table>
+
+          <!-- Empty State -->
+          <div id="secEmptyState" class="table-empty-state" style="display: none;">
+            <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <div class="empty-state-title">No Visitors in Current View</div>
+            <div class="empty-state-desc">There are no records matching the selected gate tab and filter criteria.</div>
+          </div>
+
+          <div class="table-status-bar">
+            <div>
+              Active View: <span id="secCurrentTabLabel" style="font-weight: 600;">Approved Awaiting Arrival</span> &bull; <span id="secCountDisplay">0</span> records
+            </div>
+            <div>
+              Gate 1 Terminal System &bull; CVR College of Engineering, Vastunagar
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Visitor Pass Verification Modal (Gate Detail & Pass Print) -->
+  <div class="modal-overlay" id="gateDetailModal" role="dialog" aria-modal="true" aria-labelledby="gateModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-lg">
+      <div class="modal-header">
+        <h2 class="modal-title" id="gateModalTitle">CVR Campus Visitor Clearance Slip &bull; Gate 1</h2>
+        <button type="button" class="modal-close-btn" data-close-modal="gateDetailModal" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body" id="gateModalContent">
+        <!-- Rendered via JS -->
+      </div>
+      <div class="modal-footer" id="gateModalFooter">
+        <button type="button" class="btn btn-secondary" data-close-modal="gateDetailModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Check-In Confirmation Modal -->
+  <div class="modal-overlay" id="checkInModal" role="dialog" aria-modal="true" aria-labelledby="checkInModalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2 class="modal-title" id="checkInModalTitle" style="color: var(--color-success); display: flex; align-items: center; gap: 0.5rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="8.5" cy="7" r="4"></circle>
+            <polyline points="17 11 19 13 23 9"></polyline>
+          </svg>
+          Confirm Gate Arrival Check-in
+        </h2>
+        <button type="button" class="modal-close-btn" data-close-modal="checkInModal" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.9375rem; margin-bottom: 1rem; color: var(--color-text-main);">
+          Verify physical government photo ID (Aadhaar / DL / Passport) for <strong id="checkInVisitorName">Visitor</strong> (<code id="checkInRefId">CVR-...</code>) and confirm entry badge issuance.
+        </p>
+
+        <div class="alert alert-info" style="margin-bottom: 0;">
+          <div class="alert-content">
+            <div class="alert-title">Gate 1 Check-in Protocol:</div>
+            <ul style="margin: 0.25rem 0 0 1.2rem; font-size: 0.8125rem; line-height: 1.5;">
+              <li>Visitor name matches official photo identification.</li>
+              <li>Host CVR engineering department authorization verified.</li>
+              <li>Temporary physical visitor badge and parking tag handed to visitor.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close-modal="checkInModal">Cancel</button>
+        <button type="button" class="btn btn-success" id="confirmCheckInBtn">
+          Confirm Check-In &amp; Issue Badge
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Check-Out Confirmation Modal -->
+  <div class="modal-overlay" id="checkOutModal" role="dialog" aria-modal="true" aria-labelledby="checkOutModalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2 class="modal-title" id="checkOutModalTitle" style="color: var(--color-primary); display: flex; align-items: center; gap: 0.5rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          Log Visitor Departure Check-out
+        </h2>
+        <button type="button" class="modal-close-btn" data-close-modal="checkOutModal" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.9375rem; margin-bottom: 1rem; color: var(--color-text-main);">
+          Log campus departure for <strong id="checkOutVisitorName">Visitor</strong> (<code id="checkOutRefId">CVR-...</code>)?
+        </p>
+        <div class="alert alert-warning" style="margin-bottom: 0;">
+          <div class="alert-content">
+            <div class="alert-title">Badge Return Notice</div>
+            <div style="font-size: 0.8125rem;">
+              Ensure the visitor has surrendered their temporary building pass and vehicle parking slip at Gate 1 prior to completing departure logging.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close-modal="checkOutModal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="confirmCheckOutBtn">
+          Log Checkout &amp; Close Visit
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/common.js"></script>
+  <script src="js/security-dashboard.js"></script>
+</body>
+</html>
