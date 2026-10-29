@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff &amp; Security Portal Login | CVR College of Engineering</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <meta name="description" content="Authorized staff login for CVR College of Engineering visitor administration and campus security officers.">
+  <style>
+    .login-container-wrapper {
+      min-height: calc(100vh - 180px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1rem;
+    }
+    .login-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    .login-card-header {
+      background-color: var(--color-primary);
+      color: #FFFFFF;
+      padding: 1.75rem 1.75rem 1.5rem;
+      text-align: center;
+    }
+    .login-card-body {
+      padding: 1.75rem;
+    }
+    .demo-accounts-box {
+      margin-top: 1.5rem;
+      background-color: var(--color-bg-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+    }
+    .demo-account-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+    .demo-account-item:last-child {
+      border-bottom: none;
+    }
+    .demo-quick-btn {
+      font-size: 0.6875rem;
+      padding: 0.2rem 0.5rem;
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: 3px;
+      cursor: pointer;
+      color: var(--color-secondary);
+      font-weight: 600;
+    }
+    .demo-quick-btn:hover {
+      background: var(--color-secondary-light);
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <aside class="demo-badge-banner" role="complementary">
+    <div class="container">
+      <strong>Demonstration Prototype:</strong> CVR College of Engineering Staff &amp; Security Authentication.
+    </div>
+  </aside>
+
+  <!-- Campus Header -->
+  <header class="site-header">
+    <div class="header-main">
+      <div class="container">
+        <a href="index.html" class="brand-wrapper" aria-label="CVR College of Engineering Visitor Portal Home">
+          <div class="brand-emblem" aria-hidden="true">CVR</div>
+          <div class="brand-text">
+            <span class="brand-name">CVR COLLEGE OF ENGINEERING</span>
+            <span class="brand-dept">Campus Safety &amp; Visitor Administration &bull; Vastunagar</span>
+          </div>
+        </a>
+
+        <div style="font-size: var(--font-size-xs); color: var(--color-text-secondary);">
+          <a href="index.html" class="nav-link">&larr; Return to Public Portal</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" class="login-container-wrapper">
+    <div class="login-card">
+      
+      <!-- Administrative Header -->
+      <div class="login-card-header">
+        <div style="width: 36px; height: 36px; background: rgba(255, 255, 255, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <h1 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem; letter-spacing: -0.01em;">
+          CVR Staff Console Login
+        </h1>
+        <p style="font-size: 0.8125rem; color: #CBD5E1; margin: 0;">
+          Department Administration &amp; Gate 1 Security Personnel
+        </p>
+      </div>
+
+      <!-- Login Form Body -->
+      <div class="login-card-body">
+        
+        <!-- Error Alert -->
+        <div id="loginErrorAlert" class="alert alert-danger" style="display: none; padding: 0.65rem 0.85rem;" role="alert">
+          <div class="alert-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <div class="alert-content">
+            <div id="loginErrorMessage" style="font-size: 0.8125rem;">
+              Invalid credentials. Please verify your staff email and password.
+            </div>
+          </div>
+        </div>
+
+        <form id="staffLoginForm" novalidate autocomplete="off">
+          
+          <!-- Email Address -->
+          <div class="form-group" id="group-loginEmail" style="margin-bottom: 1.125rem;">
+            <label for="loginEmail" class="form-label">
+              <span>CVR Staff Official Email</span>
+            </label>
+            <input 
+              type="email" 
+              id="loginEmail" 
+              name="loginEmail" 
+              class="form-control" 
+              placeholder="e.g. admin@cvr.ac.in" 
+              required
+              aria-describedby="error-loginEmail">
+            <div id="error-loginEmail" class="form-error" role="alert">Please provide your CVR staff email.</div>
+          </div>
+
+          <!-- Password with toggle -->
+          <div class="form-group" id="group-loginPassword" style="margin-bottom: 1.125rem;">
+            <label for="loginPassword" class="form-label">
+              <span>Staff Password</span>
+            </label>
+            <div class="input-group">
+              <input 
+                type="password" 
+                id="loginPassword" 
+                name="loginPassword" 
+                class="form-control" 
+                placeholder="Enter authorized password" 
+                required
+                aria-describedby="error-loginPassword">
+              <button type="button" class="input-group-append-btn toggle-password-btn" data-target="loginPassword" aria-label="Toggle password visibility">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </div>
+            <div id="error-loginPassword" class="form-error" role="alert">Please enter your password.</div>
+          </div>
+
+          <!-- Remember me & help -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-size: var(--font-size-xs);">
+            <label class="checkbox-group">
+              <input type="checkbox" id="rememberMe" class="checkbox-input">
+              <span class="checkbox-label" style="font-size: var(--font-size-xs); color: var(--color-text-secondary);">
+                Remember this terminal
+              </span>
+            </label>
+            <span style="color: var(--color-text-muted);">CVR Intranet Auth v3.1</span>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="loginSubmitBtn" class="btn btn-primary" style="width: 100%; padding: 0.6875rem;">
+            <span>Sign In to CVR Console</span>
+          </button>
+        </form>
+
+        <!-- Prototype Reviewer Credentials Shortcut -->
+        <div class="demo-accounts-box">
+          <div style="font-weight: 600; color: var(--color-primary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.03em;">
+            CVR Prototype Accounts:
+          </div>
+          
+          <div class="demo-account-item">
+            <div>
+              <strong style="color: var(--color-text-main);">CVR Admin (AO):</strong><br>
+              <code>admin@cvr.ac.in</code> / <code>admin123</code>
+            </div>
+            <button type="button" class="demo-quick-btn fill-account-btn" data-email="admin@cvr.ac.in" data-pwd="admin123">
+              Fill &amp; Test &rarr;
+            </button>
+          </div>
+
+          <div class="demo-account-item">
+            <div>
+              <strong style="color: var(--color-text-main);">Gate 1 Security Lead:</strong><br>
+              <code>security@cvr.ac.in</code> / <code>guard123</code>
+            </div>
+            <button type="button" class="demo-quick-btn fill-account-btn" data-email="security@cvr.ac.in" data-pwd="guard123">
+              Fill &amp; Test &rarr;
+            </button>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.25rem; text-align: center; font-size: var(--font-size-xs); color: var(--color-text-muted);">
+          CVR College of Engineering Network &bull; Vastunagar, Mangalpalli, Ibrahimpatnam.
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Campus Footer -->
+  <footer class="site-footer">
+    <div class="footer-bottom">
+      <div class="container">
+        <div>&copy; 2026 CVR College of Engineering. Official Staff Portal.</div>
+        <div><a href="index.html" style="color: var(--color-secondary); text-decoration: none;">Public Visitor Portal</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/common.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>
